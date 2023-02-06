@@ -1,24 +1,20 @@
 {
-  "publisher": "antfu",
-  "name": "ext-name",
-  "displayName": "ext-name",
+  "publisher": "kkopite",
+  "name": "kkopite.vue-generate-nested-css",
+  "displayName": "kkopite.vue-generate-nested-css",
   "version": "0.0.0",
   "private": true,
   "packageManager": "pnpm@7.8.0",
   "description": "",
-  "author": "Anthony Fu <anthonyfu117@hotmail.com>",
+  "author": "kkopite <kkopitehong@foxmail.com>",
   "license": "MIT",
-  "funding": "https://github.com/sponsors/antfu",
-  "homepage": "https://github.com/antfu/ext-name#readme",
+  "homepage": "https://github.com/action-hong/vue-generate-nested-css#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/antfu/ext-name"
+    "url": "https://github.com/action-hong/vue-generate-nested-css"
   },
   "bugs": {
-    "url": "https://github.com/antfu/ext-name/issues"
-  },
-  "sponsor": {
-    "url": "https://github.com/sponsors/antfu"
+    "url": "https://github.com/action-hong/vue-generate-nested-css/issues"
   },
   "categories": [
     "Other"
