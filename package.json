@@ -28,8 +28,16 @@
     "vscode": "^1.69.0"
   },
   "activationEvents": [
-    "onStartupFinished"
+    "onLanguage:vue"
   ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "vue-generate-nested-css.generate",
+        "title": "generate nested css"
+      }
+    ]
+  },
   "scripts": {
     "build": "tsup src/index.ts --external vscode",
     "dev": "nr build --watch",

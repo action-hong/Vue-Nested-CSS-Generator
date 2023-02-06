@@ -1,7 +1,12 @@
-import { window } from 'vscode'
+import * as vscode from 'vscode'
 
-export function activate() {
-  window.showInformationMessage('Hello')
+const command = 'vue-generate-nested-css.generate'
+
+export function activate(ctx: vscode.ExtensionContext) {
+  ctx.subscriptions.push(vscode.commands.registerCommand(
+    command,
+    () => vscode.window.showInformationMessage('Hello'),
+  ))
 }
 
 export function deactivate() {
