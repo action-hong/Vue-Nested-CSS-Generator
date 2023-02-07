@@ -21,6 +21,7 @@ interface FileOption {
 export function parseSFCTemplateBlock(node: SFCTemplateBlock['ast']) {
   const kNode = new KNode('', '')
   walk(node, kNode)
+  console.log(JSON.stringify(kNode, null, 2))
   return kNode
 }
 
@@ -29,9 +30,10 @@ export function isAttributeNode(node: AttributeNode | DirectiveNode): node is At
 }
 
 function walk(node: SFCTemplateBlock['ast'], parentKNode: KNode, depth = 0) {
-  if (node.tag && node.tagType === 0) {
+  if (node.tag && (node.tagType === 0 || node.tagType === 1)) {
     const clazz = node.props.find(item => item.name === 'class')
-    const tag = node.tag
+    // 组件时，tag直接为设置为空
+    const tag = node.tagType === 0 ? node.tag : ''
     let clz = ''
     if (clazz && isAttributeNode(clazz)) {
       const content = clazz.value?.content.trim()
@@ -39,6 +41,7 @@ function walk(node: SFCTemplateBlock['ast'], parentKNode: KNode, depth = 0) {
         clz = `.${content.replace(/\s/g, '.')}`
     }
     const t = new KNode(tag === 'template' ? '' : tag, clz)
+
     parentKNode.addKNode(t)
     parentKNode = t
   }
@@ -57,19 +60,19 @@ function walk(node: SFCTemplateBlock['ast'], parentKNode: KNode, depth = 0) {
   }
 }
 
-export function generateCSS(fileOption: FileOption, option: GenerateCSSOption = {
-  closingTag: '</style>',
-  openingTag: '<style lang="scss" scoped>',
-  includeTag: false,
-}) {
+export function generateCSS(fileOption: FileOption, {
+  closingTag = '</style>',
+  openingTag = '<style lang="scss" scoped>',
+  includeTag = false,
+} = {}) {
   const template = transformSourceToTemplate(fileOption)
 
   if (template) {
     let css = parseSFCTemplateBlock(template as TemplateNode)
-      .getCSS(0, option.includeTag)
-    css = `${option.openingTag}
+      .getCSS(0, includeTag)
+    css = `${openingTag}
 ${css}
-${option.closingTag}`
+${closingTag}`
 
     return css
   }

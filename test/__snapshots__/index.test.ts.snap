@@ -1,5 +1,16 @@
 // Vitest Snapshot v1
 
+exports[`should > component 1`] = `
+"<style lang=\\"scss\\" scoped>
+.title {
+
+}
+.btn {
+
+}
+</style>"
+`;
+
 exports[`should > static 1`] = `
 "<style lang=\\"scss\\" scoped>
 .container {

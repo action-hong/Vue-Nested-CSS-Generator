@@ -20,4 +20,8 @@ describe('should', () => {
   it('static', () => {
     expect(css('static')).toMatchSnapshot()
   })
+
+  it('component', () => {
+    expect(css('component')).toMatchSnapshot()
+  })
 })
