@@ -1,11 +1,25 @@
 import type { SFCTemplateBlock } from '@vue/compiler-sfc'
-import type { AttributeNode, DirectiveNode } from '@vue/compiler-core'
+import type { AttributeNode, DirectiveNode, TemplateNode } from '@vue/compiler-core'
+import { compileTemplate } from '@vue/compiler-sfc'
+
 import { KNode } from './KNode'
 
 type ElementNode = SFCTemplateBlock['ast']
 
+export interface GenerateCSSOption {
+  includeTag: boolean
+  openingTag: string
+  closingTag: string
+}
+
+interface FileOption {
+  source: string
+  id: string
+  filename: string
+}
+
 export function parseSFCTemplateBlock(node: SFCTemplateBlock['ast']) {
-  const kNode = new KNode('template', '')
+  const kNode = new KNode('', '')
   walk(node, kNode)
   return kNode
 }
@@ -24,7 +38,7 @@ function walk(node: SFCTemplateBlock['ast'], parentKNode: KNode, depth = 0) {
       if (content)
         clz = `.${content.replace(/\s/g, '.')}`
     }
-    const t = new KNode(tag, clz)
+    const t = new KNode(tag === 'template' ? '' : tag, clz)
     parentKNode.addKNode(t)
     parentKNode = t
   }
@@ -41,4 +55,31 @@ function walk(node: SFCTemplateBlock['ast'], parentKNode: KNode, depth = 0) {
     }
     i--
   }
+}
+
+export function generateCSS(fileOption: FileOption, option: GenerateCSSOption) {
+  const template = transformSourceToTemplate(fileOption)
+
+  if (template) {
+    let css = parseSFCTemplateBlock(template as TemplateNode)
+      .getCSS(0, option.includeTag)
+    css = `${option.openingTag}
+${css}
+${option.closingTag}`
+
+    return css
+  }
+}
+
+function transformSourceToTemplate(fileOption: FileOption) {
+  const result = compileTemplate({
+    ...fileOption,
+    compilerOptions: {
+      hoistStatic: false,
+    },
+  })
+
+  const template = result.ast?.children.find(item => (item as any).tag === 'template')
+
+  return template
 }

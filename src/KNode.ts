@@ -13,18 +13,21 @@ export class KNode {
   }
 
   getCSS(depth = 0, includeTag = false): string {
-    const inner = `${this.children.map(i => i.getCSS(includeTag || this.clazz ? depth + 1 : depth, includeTag)).join('\n')}`
+    // 当前节点可以生成一个选择器
+    const flag = this.tag && (includeTag || this.clazz)
 
-    if (!includeTag && !this.clazz) {
+    const inner = `${this.children.map(i => i.getCSS(flag ? depth + 1 : depth, includeTag)).join('\n')}`
+
+    if (!flag) {
       return inner
     }
     else {
       const space = ' '.repeat(2 * depth)
-      const selector = `${space}${this.tag}${this.clazz}`
+      const selector = `${space}${includeTag ? this.tag : ''}${this.clazz}`
       return `${selector} {
-  
-  ${inner}
-  ${space}}`
+
+${inner}
+${space}}`
     }
   }
 

@@ -1,30 +1,33 @@
-import { compileTemplate } from '@vue/compiler-sfc'
-import type { TemplateNode } from '@vue/compiler-core'
 import * as vscode from 'vscode'
-import { parseSFCTemplateBlock } from './util'
+import { generateCSS } from './util'
 
 const command = 'vue-generate-nested-css.generate'
 
-function generateCSS() {
+const openingTag = 'vgns.openingTag'
+const closingTag = 'vgns.closingTag'
+const includeTag = 'vgns.includeTag'
+
+function generateCSSFromActiveTextEditor() {
   const editor = vscode.window.activeTextEditor
   if (!editor)
     return
 
   const source = editor.document.getText()
 
-  const result = compileTemplate({
+  const config = vscode.workspace.getConfiguration()
+  const option = {
+    includeTag: config.get(includeTag) as boolean,
+    openingTag: config.get(openingTag) as string,
+    closingTag: config.get(closingTag) as string,
+  }
+
+  const css = generateCSS({
     source,
-    compilerOptions: {
-      hoistStatic: false,
-    },
-    filename: editor.document.fileName,
     id: editor.document.fileName,
-  })
+    filename: editor.document.fileName,
+  }, option)
 
-  const template = result.ast?.children.find(item => (item as any).tag === 'template')
-
-  if (template) {
-    const css = parseSFCTemplateBlock(template as TemplateNode).getCSS()
+  if (css) {
     vscode.window.showInformationMessage('生成内容已复制到粘贴板')
     // 复制到
     vscode.env.clipboard.writeText(css)
@@ -35,7 +38,7 @@ export function activate(ctx: vscode.ExtensionContext) {
   ctx.subscriptions.push(vscode.commands.registerCommand(
     command,
     () => {
-      generateCSS()
+      generateCSSFromActiveTextEditor()
     },
   ))
 }
