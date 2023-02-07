@@ -16,16 +16,19 @@ export class KNode {
     // 当前节点可以生成一个选择器
     const flag = this.tag && (includeTag || this.clazz)
 
-    const inner = `${this.children.map(i => i.getCSS(flag ? depth + 1 : depth, includeTag)).join('\n')}`
-
+    let inner = `${this.children.map(i => i.getCSS(flag ? depth + 1 : depth, includeTag)).join('\n')}`
     if (!flag) {
       return inner
     }
     else {
+      if (inner) {
+        inner = `
+${inner}`
+      }
+
       const space = ' '.repeat(2 * depth)
       const selector = `${space}${includeTag ? this.tag : ''}${this.clazz}`
       return `${selector} {
-
 ${inner}
 ${space}}`
     }

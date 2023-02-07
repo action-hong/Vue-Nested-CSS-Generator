@@ -57,7 +57,11 @@ function walk(node: SFCTemplateBlock['ast'], parentKNode: KNode, depth = 0) {
   }
 }
 
-export function generateCSS(fileOption: FileOption, option: GenerateCSSOption) {
+export function generateCSS(fileOption: FileOption, option: GenerateCSSOption = {
+  closingTag: '</style>',
+  openingTag: '<style lang="scss" scoped>',
+  includeTag: false,
+}) {
   const template = transformSourceToTemplate(fileOption)
 
   if (template) {

@@ -1,0 +1,21 @@
+// Vitest Snapshot v1
+
+exports[`should > static 1`] = `
+"<style lang=\\"scss\\" scoped>
+.container {
+
+  .header {
+
+  }
+  .main {
+
+  }
+  .footer {
+
+    .email {
+
+    }
+  }
+}
+</style>"
+`;
