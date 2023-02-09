@@ -43,7 +43,7 @@ function walk(node: TemplateChildNode | IfNode | ForNode | IfBranchNode, parentK
       if (clazz && isAttributeNode(clazz)) {
         const content = clazz.value?.content.trim()
         if (content)
-          clz = `.${content.replace(/\s/g, '.')}`
+          clz = `.${content.split(/\s/g).sort().join('.')}`
       }
       const t = new KNode(tag === 'template' ? '' : tag, clz, node.tag)
 
@@ -67,6 +67,20 @@ function walk(node: TemplateChildNode | IfNode | ForNode | IfBranchNode, parentK
     }
     i--
   }
+
+  // 查看节点相同的，子元素进行合并
+  // FIXME: 如何做到多层级嵌套css的合并
+  const temp = parentKNode.children.reduce((prev, cur) => {
+    const key = cur.tag + cur.clazz
+    if (prev[key])
+      prev[key].children.push(...cur.children)
+    else
+      prev[key] = cur
+
+    return prev
+  }, {} as Record<string, KNode>)
+
+  parentKNode.children = [...Object.values(temp)]
 }
 
 export function generateCSS(fileOption: FileOption, {
