@@ -1,76 +1,36 @@
 // Vitest Snapshot v1
 
-exports[`should > component 1`] = `
+exports[`should > complex 1`] = `
 "<style lang=\\"scss\\" scoped>
-.foo {
+.container {
 
   .title {
 
   }
-}
-.btn {
-
-}
-</style>"
-`;
-
-exports[`should > component 2`] = `
-"<style lang=\\"scss\\" scoped>
-div {
-
-  .foo {
-
-    p.title {
-
-    }
-  }
-  button.btn {
+  .btn {
 
   }
 }
 </style>"
 `;
 
-exports[`should > static 1`] = `
-"<style lang=\\"scss\\" scoped>
-.container {
-
-  .header {
-
-  }
-  .main {
-
-  }
-  .footer {
-
-    .email {
-
-    }
-  }
-}
-</style>"
-`;
-
-exports[`should > static 2`] = `
+exports[`should > complex 2`] = `
 "<style lang=\\"scss\\" scoped>
 div.container {
 
-  h1.header {
-
-  }
-  main.main {
+  header.title {
 
     ul {
 
-      li {
-
-      }
     }
   }
-  div.footer {
+  main {
 
-    a.email {
+    p {
 
+      button.btn {
+
+      }
     }
   }
 }

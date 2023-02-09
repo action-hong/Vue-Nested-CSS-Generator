@@ -1,10 +1,8 @@
 import type { SFCTemplateBlock } from '@vue/compiler-sfc'
-import type { AttributeNode, DirectiveNode, TemplateNode } from '@vue/compiler-core'
+import type { AttributeNode, DirectiveNode, ElementNode, IfBranchNode, IfNode, TemplateChildNode, TemplateNode } from '@vue/compiler-core'
 import { compileTemplate } from '@vue/compiler-sfc'
 
 import { KNode } from './KNode'
-
-type ElementNode = SFCTemplateBlock['ast']
 
 export interface GenerateCSSOption {
   includeTag: boolean
@@ -21,6 +19,7 @@ interface FileOption {
 export function parseSFCTemplateBlock(node: SFCTemplateBlock['ast']) {
   const kNode = new KNode('', '', node.tag)
   walk(node, kNode)
+  // console.log(JSON.stringify(kNode, null, 2))
   return kNode
 }
 
@@ -28,24 +27,35 @@ export function isAttributeNode(node: AttributeNode | DirectiveNode): node is At
   return !!(node as AttributeNode).value
 }
 
-function walk(node: SFCTemplateBlock['ast'], parentKNode: KNode, depth = 0) {
-  if (node.tag && (node.tagType === 0 || node.tagType === 1)) {
-    const clazz = node.props.find(item => item.name === 'class')
-    // 组件时，tag直接为设置为空
-    const tag = node.tagType === 0 ? node.tag : ''
-    let clz = ''
-    if (clazz && isAttributeNode(clazz)) {
-      const content = clazz.value?.content.trim()
-      if (content)
-        clz = `.${content.replace(/\s/g, '.')}`
-    }
-    const t = new KNode(tag === 'template' ? '' : tag, clz, node.tag)
-
-    parentKNode.addKNode(t)
-    parentKNode = t
+function walk(node: TemplateChildNode | IfNode | IfBranchNode, parentKNode: KNode, depth = 0) {
+  if (node.type === 9) { // IF
+    node.branches.forEach(n => walk(n, parentKNode, depth))
   }
-  if (node.children)
-    node.children.forEach(n => walk(n as ElementNode, parentKNode, depth + 1))
+  else if (node.type === 10) { // IF_BRANCH
+    node.children.forEach(n => walk(n, parentKNode, depth))
+  }
+  else if (node.type === 1) { // ELEMENT
+    if (node.tag && (node.tagType === 0 || node.tagType === 1)) {
+      const clazz = node.props.find(item => item.name === 'class')
+      // 组件时，tag直接为设置为空
+      const tag = node.tagType === 0 ? node.tag : ''
+      let clz = ''
+      if (clazz && isAttributeNode(clazz)) {
+        const content = clazz.value?.content.trim()
+        if (content)
+          clz = `.${content.replace(/\s/g, '.')}`
+      }
+      const t = new KNode(tag === 'template' ? '' : tag, clz, node.tag)
+
+      parentKNode.addKNode(t)
+      parentKNode = t
+    }
+    if (node.children)
+      node.children.forEach(n => walk(n as ElementNode, parentKNode, depth + 1))
+  }
+  else {
+    // not need
+  }
 
   // 查看node.children下是否有重复的
   let i = parentKNode.children.length - 1

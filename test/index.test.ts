@@ -19,13 +19,18 @@ function css(name: string, flag = false) {
 }
 
 describe('should', () => {
-  it('static', () => {
-    expect(css('static')).toMatchSnapshot()
-    expect(css('static', true)).toMatchSnapshot()
-  })
+  // it('static', () => {
+  //   expect(css('static')).toMatchSnapshot()
+  //   expect(css('static', true)).toMatchSnapshot()
+  // })
 
-  it('component', () => {
-    expect(css('component')).toMatchSnapshot()
-    expect(css('component', true)).toMatchSnapshot()
+  // it('component', () => {
+  //   expect(css('component')).toMatchSnapshot()
+  //   expect(css('component', true)).toMatchSnapshot()
+  // })
+
+  it('complex', () => {
+    expect(css('complex')).toMatchSnapshot()
+    expect(css('complex', true)).toMatchSnapshot()
   })
 })
