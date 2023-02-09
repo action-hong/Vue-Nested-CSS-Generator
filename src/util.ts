@@ -1,5 +1,5 @@
 import type { SFCTemplateBlock } from '@vue/compiler-sfc'
-import type { AttributeNode, DirectiveNode, ElementNode, IfBranchNode, IfNode, TemplateChildNode, TemplateNode } from '@vue/compiler-core'
+import type { AttributeNode, DirectiveNode, ElementNode, ForNode, IfBranchNode, IfNode, TemplateChildNode, TemplateNode } from '@vue/compiler-core'
 import { compileTemplate } from '@vue/compiler-sfc'
 
 import { KNode } from './KNode'
@@ -27,11 +27,11 @@ export function isAttributeNode(node: AttributeNode | DirectiveNode): node is At
   return !!(node as AttributeNode).value
 }
 
-function walk(node: TemplateChildNode | IfNode | IfBranchNode, parentKNode: KNode, depth = 0) {
+function walk(node: TemplateChildNode | IfNode | ForNode | IfBranchNode, parentKNode: KNode, depth = 0) {
   if (node.type === 9) { // IF
     node.branches.forEach(n => walk(n, parentKNode, depth))
   }
-  else if (node.type === 10) { // IF_BRANCH
+  else if (node.type === 10 || node.type === 11) { // IF_BRANCH , FOR
     node.children.forEach(n => walk(n, parentKNode, depth))
   }
   else if (node.type === 1) { // ELEMENT
