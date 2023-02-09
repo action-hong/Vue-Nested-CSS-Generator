@@ -1,11 +1,11 @@
 import * as vscode from 'vscode'
 import { generateCSS } from './util'
 
-const command = 'vue-generate-nested-css.generate'
+const command = 'vue-nested-css-generator.generate'
 
-const openingTag = 'vgns.openingTag'
-const closingTag = 'vgns.closingTag'
-const includeTag = 'vgns.includeTag'
+const openingTag = 'vncg.openingTag'
+const closingTag = 'vncg.closingTag'
+const includeTag = 'vncg.includeTag'
 
 function generateCSSFromActiveTextEditor() {
   const editor = vscode.window.activeTextEditor
@@ -28,7 +28,7 @@ function generateCSSFromActiveTextEditor() {
   }, option)
 
   if (css) {
-    vscode.window.showInformationMessage('生成内容已复制到粘贴板')
+    vscode.window.showInformationMessage('Already put the generated css code to the clipboard')
     // 复制到
     vscode.env.clipboard.writeText(css)
   }

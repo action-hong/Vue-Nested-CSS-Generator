@@ -68,8 +68,7 @@ function walk(node: TemplateChildNode | IfNode | ForNode | IfBranchNode, parentK
     i--
   }
 
-  // 查看节点相同的，子元素进行合并
-  // FIXME: 如何做到多层级嵌套css的合并
+  // FIXME: merge node which has same parent node
   const temp = parentKNode.children.reduce((prev, cur) => {
     const key = cur.tag + cur.clazz
     if (prev[key])

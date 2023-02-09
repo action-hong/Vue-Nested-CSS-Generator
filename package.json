@@ -1,20 +1,20 @@
 {
   "publisher": "kkopite",
-  "name": "kkopite.vue-generate-nested-css",
-  "displayName": "kkopite.vue-generate-nested-css",
+  "name": "kkopite.vue-nested-css-generator",
+  "displayName": "kkopite.vue-nested-css-generator",
   "version": "0.0.0",
   "private": true,
   "packageManager": "pnpm@7.8.0",
   "description": "",
   "author": "kkopite <kkopitehong@foxmail.com>",
   "license": "MIT",
-  "homepage": "https://github.com/action-hong/vue-generate-nested-css#readme",
+  "homepage": "https://github.com/action-hong/vue-nested-css-generator#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/action-hong/vue-generate-nested-css"
+    "url": "https://github.com/action-hong/vue-nested-css-generator"
   },
   "bugs": {
-    "url": "https://github.com/action-hong/vue-generate-nested-css/issues"
+    "url": "https://github.com/action-hong/vue-nested-css-generator/issues"
   },
   "categories": [
     "Other"
@@ -33,24 +33,34 @@
   "contributes": {
     "commands": [
       {
-        "command": "vue-generate-nested-css.generate",
-        "title": "generate nested css"
+        "command": "vue-nested-css-generator.generate",
+        "title": "generate nested css",
+        "category": "Vue CSS Generator"
       }
     ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "vue-nested-css-generator.generate",
+          "when": "editorFocus && resourceLangId == 'vue'",
+          "group": "7_modification"
+        }
+      ]
+    },
     "configuration": {
       "title": "Vue Generate Nested CSS",
       "properties": {
-        "vgns.openingTag": {
+        "vncg.openingTag": {
           "type": "string",
           "default": "<style lang=\"scss\" scoped>",
           "description": "The openint tag of the generated css content"
         },
-        "vgns.closingTag": {
+        "vncg.closingTag": {
           "type": "string",
           "default": "</style>",
           "description": "The closing tag of the generated css content"
         },
-        "vgns.includeTag": {
+        "vncg.includeTag": {
           "type": "boolean",
           "default": false,
           "description": "Whether the generated css content contains tags or not, default is false"
