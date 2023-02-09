@@ -19,9 +19,8 @@ interface FileOption {
 }
 
 export function parseSFCTemplateBlock(node: SFCTemplateBlock['ast']) {
-  const kNode = new KNode('', '')
+  const kNode = new KNode('', '', node.tag)
   walk(node, kNode)
-  console.log(JSON.stringify(kNode, null, 2))
   return kNode
 }
 
@@ -40,7 +39,7 @@ function walk(node: SFCTemplateBlock['ast'], parentKNode: KNode, depth = 0) {
       if (content)
         clz = `.${content.replace(/\s/g, '.')}`
     }
-    const t = new KNode(tag === 'template' ? '' : tag, clz)
+    const t = new KNode(tag === 'template' ? '' : tag, clz, node.tag)
 
     parentKNode.addKNode(t)
     parentKNode = t

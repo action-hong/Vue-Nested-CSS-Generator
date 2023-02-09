@@ -1,9 +1,11 @@
 export class KNode {
   tag: string
+  originTag: string
   clazz: string
   children: KNode[]
-  constructor(tag: string, clazz: string) {
+  constructor(tag: string, clazz: string, _tag: string) {
     this.tag = tag
+    this.originTag = _tag
     this.clazz = clazz
     this.children = []
   }
@@ -14,7 +16,7 @@ export class KNode {
 
   getCSS(depth = 0, includeTag = false): string {
     // 当前节点可以生成一个选择器
-    const flag = this.tag && (includeTag || this.clazz)
+    const flag = this.clazz || (includeTag && this.tag)
 
     let inner = `${this.children.map(i => i.getCSS(flag ? depth + 1 : depth, includeTag)).join('\n')}`
     if (!flag) {

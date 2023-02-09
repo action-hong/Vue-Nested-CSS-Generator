@@ -2,11 +2,31 @@
 
 exports[`should > component 1`] = `
 "<style lang=\\"scss\\" scoped>
-.title {
+.foo {
 
+  .title {
+
+  }
 }
 .btn {
 
+}
+</style>"
+`;
+
+exports[`should > component 2`] = `
+"<style lang=\\"scss\\" scoped>
+div {
+
+  .foo {
+
+    p.title {
+
+    }
+  }
+  button.btn {
+
+  }
 }
 </style>"
 `;
@@ -24,6 +44,32 @@ exports[`should > static 1`] = `
   .footer {
 
     .email {
+
+    }
+  }
+}
+</style>"
+`;
+
+exports[`should > static 2`] = `
+"<style lang=\\"scss\\" scoped>
+div.container {
+
+  h1.header {
+
+  }
+  main.main {
+
+    ul {
+
+      li {
+
+      }
+    }
+  }
+  div.footer {
+
+    a.email {
 
     }
   }
