@@ -78,6 +78,10 @@
     "typecheck": "tsc --noEmit",
     "release": "bumpp && nr publish"
   },
+  "dependencies": {
+    "@vue/compiler-core": "^3.2.47",
+    "@vue/compiler-sfc": "^3.2.47"
+  },
   "devDependencies": {
     "@antfu/eslint-config": "^0.25.2",
     "@antfu/ni": "^0.17.2",
@@ -93,9 +97,5 @@
     "vite": "^3.0.4",
     "vitest": "^0.21.0",
     "vsce": "^2.10.0"
-  },
-  "dependencies": {
-    "@vue/compiler-core": "^3.2.47",
-    "@vue/compiler-sfc": "^3.2.47"
   }
 }
