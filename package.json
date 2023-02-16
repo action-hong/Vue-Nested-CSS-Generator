@@ -2,7 +2,7 @@
   "publisher": "kkopite",
   "name": "vue-nested-css-generator",
   "displayName": "vue-nested-css-generator",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "packageManager": "pnpm@7.8.0",
   "description": "",
   "author": "kkopite <kkopitehong@foxmail.com>",
