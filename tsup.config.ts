@@ -10,4 +10,8 @@ export default defineConfig({
   external: [
     'vscode',
   ],
+  noExternal: [
+    '@vue/compiler-sfc',
+    '@vue/compiler-core',
+  ],
 })
